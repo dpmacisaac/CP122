@@ -1,2 +1,1 @@
-# CP122
-Projects for CPSC 122
+Code repository for my CPSC 122 programs
