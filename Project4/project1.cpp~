@@ -1,0 +1,109 @@
+Remove vector, change name to project4.cpp
+/*
+ Name: Dominic MacIsaac
+ Class: CPSC 122, Section 1
+ Date Submitted: 
+ Assignment: Project 1                                              
+ Description: Output amount of prime numbers indicated by user onto a new file. The numbers are written in amount of columns specified by user. 
+ Notes: 
+*/
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+void userInputNums(int& amtNums, int& cols);
+void generatePrimes(vector<int>& primeNums, int amtNums);
+bool isPrime(int num);
+void printPrimes(vector<int>& primeNums, int cols, ofstream& fout);
+
+int main(int argc, char* argv[])
+{
+	ofstream fout;
+	int amtNums = 0, cols = 0;
+	vector<int> primeNums;
+	if(argc != 2)
+ {
+ 	cout << "Too many command line parameters entered" << endl;
+ 	return -1;
+ }
+	fout.open(argv[1]);
+ 
+ userInputNums(amtNums, cols);
+ generatePrimes(primeNums, amtNums);
+	printPrimes(primeNums, cols, fout);
+	
+	return 0;
+}
+
+void userInputNums(int& nums, int& cols)
+{
+
+	cout << "Please enter how many prime numbers you would like to generate" << endl;
+	cin >> nums;
+	
+	cout << "Please enter how many columns you would like to display" << endl;
+	cin >> cols;
+
+	return;
+}
+
+void generatePrimes(vector<int>& primeNums, int amtNums)
+{
+	int currentNum = 3, isPrime = 0;
+	if(amtNums>=1)
+	{
+		primeNums.push_back(2);
+	}
+	while(primeNums.size() < amtNums)
+	{
+		isPrime = 0;
+		for(int currentDiv = 3; currentDiv < currentNum; currentDiv = currentDiv+2)
+		{	
+			if(currentNum%currentDiv == 0)
+			{
+				isPrime = 1;
+			}
+		}
+		if(isPrime == 0)
+		{
+			primeNums.push_back(currentNum);
+		}
+		currentNum = currentNum + 2;
+	}
+	return;
+}
+
+void printPrimes(vector<int>& primeNums, int cols, ofstream& fout)
+{
+	int ct = 0;
+ 
+ while (ct < primeNums.size())
+  {
+   fout << primeNums[ct] << '\t';         //tab to next col 
+   if (ct % cols == cols - 1)
+   {
+   	fout << endl;
+   }
+   ct++;
+  }
+
+	return;
+} 
+
+bool isPrime(int num)
+{
+	int currentNum = 3, isPrime = 0;
+	for(int currentDiv = 3; currentDiv < currentNum; currentDiv = currentDiv+2)
+		{	
+			if(currentNum%currentDiv == 0)
+			{
+				isPrime = 1;
+			}
+		}
+}
+
