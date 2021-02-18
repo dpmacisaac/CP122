@@ -4,7 +4,7 @@
  Date Submitted: 
  Assignment:  Project 5                                                
  Description: Generates a key, encrypts a plain text, and decrypts a cipher text
- Notes: Used Stack Overflow article to figure out "noskipws" so I could include spaces (https://stackoverflow.com/questions/18870002/how-to-read-a-space-character-from-a-text-file-in-c)
+ Notes: 
 */
 
 #include <iostream>
@@ -21,75 +21,120 @@ int keyGen();
 char encrypt(char ch, int key);
 char decrypt(char ch, int key);
 void fileOpen(fstream& file, string name, char mode);
+void generateKey(string);
+void encryptFile(string, string, string);
+void decryptFile(string, string, string);
 
 int main(int argc, char* argv[])
 {
-  fstream finKey;
-  fstream finT;
-  fstream fout;
-  int key = 0;
-  char temp = ' ';
-    
-  if(atoi(argv[1])==0)
-  {
-    fileOpen(fout, argv[2], 'w');
-    fout << keyGen();
-  }
+  int mode = atoi(argv[1]);
   
-  if(atoi(argv[1])==1)
+  if(mode == 0)
   {
-    fileOpen(finKey, argv[2], 'r');
-    fileOpen(finT, argv[3], 'r');
-    fileOpen(fout, argv[4], 'w');
-    finKey >> key;
-    
-    while(finT.peek() != EOF)
-    {
-      finT >> noskipws >>  temp;
-      if(temp > 64 && temp < 91)
-      {
-        fout << encrypt(temp, key);
-      }
-      else
-      {
-        fout << temp;
-      }
-    }
+    generateKey(argv[2]);
   }
-  
-  if(atoi(argv[1])==2)
+  if(mode == 1)
   {
-    fileOpen(finKey, argv[2], 'r');
-    fileOpen(finT, argv[3], 'r');
-    fileOpen(fout, argv[4], 'w');
-    finKey >> key;
-    
-    while(finT.peek() != EOF)
-    {
-      finT >> noskipws >>  temp;
-      if(temp > 64 && temp < 91)
-      {
-        fout << decrypt(temp, key);
-      }
-      else
-      {
-        fout << temp;
-      }
-    }
+    encryptFile(argv[2], argv[3], argv[4]);
+  }
+  if(mode == 2)
+  {
+    decryptFile(argv[2], argv[3], argv[4]);
   }
 
   return 0;
 }
 
 /*
-Description: Randomly generates an integer in the range: [1..25]
-Input: reference to keyFile
+Description: Write random number to file
+Input: file name to store key
 Output: writes a randomly generated integer in the range [1..25] to keyFile 
+*/
+void generateKey(string keyFileName)
+{
+  fstream keyF;
+  fileOpen(keyF, keyFileName, 'w');
+  keyF << keyGen();
+  return;
+}
+
+/*
+Description: Encrypts a plain text to a new file using a key
+Input: key file with number, plain text, and a output file
+Output: The encrypted version of the plain text to the output file
+*/
+void encryptFile(string keyFile, string ptFile, string encFile)
+{
+  fstream finKey, finPT, fout;
+  int key = 0;
+  char temp = ' ';
+  
+  fileOpen(finKey, keyFile, 'r');
+  fileOpen(finPT, ptFile, 'r');
+  fileOpen(fout, encFile, 'w');
+  
+  finKey >> key;
+    
+  while(finPT.peek() != EOF)
+  {
+    temp = finPT.get();
+    temp = toupper(temp);
+    if(temp > 64 && temp < 91)// only encrypt if it is a letter
+    {
+      fout << encrypt(temp, key);
+    }
+    else
+    {
+      fout.put(temp);
+    }
+  }
+    
+  return;
+}
+
+/*
+Description: takes an encrypted text and uses the key to decrypt it to an outfile
+Input: a keyfile, a encrypted text, an output file
+Output: the decoded text to the output file
+*/
+void decryptFile(string keyFile, string encFile, string decFile)
+{
+  fstream finKey, finET, fout;
+  int key = 0;
+  char temp = ' ';
+  
+  fileOpen(finKey, keyFile, 'r');
+  fileOpen(finET, encFile, 'r');
+  fileOpen(fout, decFile, 'w');
+  finKey >> key;
+    
+  while(finET.peek() != EOF)
+  {
+    temp = finET.get();
+    temp = toupper(temp);
+    if(temp > 64 && temp < 91) // only decrypt if it is a letter
+    {
+      fout << decrypt(temp, key);
+    }
+    else
+    {
+      fout.put(temp);
+    }
+  }
+  
+  return;
+}
+
+
+/*
+Description: Randomly generates an integer in the range: [1..25]
+Input: none
+Output: writes a randomly generated integer in the range [1..25] 
 */
 int keyGen()
 {
   int key = 0;
-  srand(time(NULL));
+  srand(time(NULL)); //seed the random number
   key = rand() % 25 + 1;
   
   return key;
@@ -106,7 +151,7 @@ char encrypt(char ch, int key)
   char encryptCh = ' ';
   
   chNum = ch - 65;
-  encryptVal = (chNum + key) % 26;
+  encryptVal = (chNum + key) % 26; //if number goes about 26, it wraps around back to 'A'
   encryptVal = encryptVal + 65;
   encryptCh = static_cast<char>(encryptVal);
   
@@ -123,8 +168,8 @@ char decrypt(char ch, int key)
   char decryptCh = ' ';
   int chNum = 0, decryptVal = 0;
   
-  chNum = ch - 65;
-  decryptVal = (chNum - key + 26) % 26;
+  chNum = ch - 65; //subtracts 65 which is the first uppercase letter, making char 0 + its position in the alphabet 
+  decryptVal = (chNum - key + 26) % 26; // added 26 to prevent negative values when subtracting the key
   decryptVal = decryptVal + 65;
   decryptCh = static_cast<char>(decryptVal);
   
