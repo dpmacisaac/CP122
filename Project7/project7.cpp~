@@ -2,9 +2,9 @@
 Name: Dominic MacIsaac
 Class: CPSC 122, Section 1
 Date Submitted: 2/20/2021
-Assignment: Project 7                                      
+Assignment: Project 7                                        
 Description: Generates a encrypt key and decrypt key in a keyfile, encrypts a plain text, and decrypts a cipher text using the Transposition Cipher
-Notes: Have A Lovely Day Graders!
+Notes: 
 */
 
 #include <iostream>
@@ -43,15 +43,14 @@ int main(int argc, char* argv[])
 }
 
 /*
-Description: invokes fileOpen on all files.  closes all files.  Reads key file. Constructs arrays for encrypt/decryption.  Reads the input file and either invokes encrypt or decrypt,  depending on the value of mode.  Writes to the output file. 
+Description: invokes fileOpen on all files.  closes all files.  Reads key file. Reads the input file and either invokes encrypt or decrypt,  depending on the value of mode.  Writes to the output file. 
 Input: names of key file, input file and output file. mode value of 1 or 2
 Output: writes to the output file
 */
-
 void fileControl (string keyFile, string fileIn, string fileOut, int mode)
 {
   fstream finKey, fin, fout;
-  int encryptKey[26] = {0}, decryptKey[26] = {0};
+  int encryptKey[26] = {0}, decryptKey[26];
   char temp = ' ';
   
   fileOpen(finKey, keyFile, 'r');
@@ -122,11 +121,11 @@ void fileOpen(fstream& file, string name, char mode)
 }
 
 /*
-Description: Opens key file for writing.  Generates and stores encrypt and decrypt keys in the key file.   This can be stored any way that you like as long as two 2-D arrays can be constructed from the file, one for encryption and one for decryption. 
-Input: name of the file in which to store generated keys
-Output: file holds generated encryption and decryption keys 
+Description: Randomly generates and stores alpha and beta values.
+The alpha value is randomly drawn from the the set:  {1,3,5,7,11, 17,19,25}
+The beta value is randomly drawn from the range: [1..25]  
+Output: alpha and beta values on subsequent lines of keyFile
 */
-
 void keyGen(string keyFile)
 {
   bool validate[26] = {false};
