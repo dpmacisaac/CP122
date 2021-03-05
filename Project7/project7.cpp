@@ -131,7 +131,7 @@ void keyGen(string keyFile)
 {
   bool validate[26] = {false};
   bool isFound = false;
-  int encryptKey[26] = {0}, decryptKey[26] = {0};
+  int encryptKey[26] = {0};
   int temp = 0, pos = 0;
   
   fstream keyF;

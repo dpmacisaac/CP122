@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+#include "8-MyStr.h"
+#include <cstring>
+
+//Constructor function
+MyString::MyString(char const* strIn)
+{ 
+  length = 0;
+  while(strIn[length] != '\0')
+  {
+    length++;
+  }
+  str = new char[length + 1];
+  for(int x = 0; x<length; x++)
+  {
+    str[x] = strIn[x];
+  }
+}
+
+//Destructor Function
+MyString::~MyString()
+{
+  delete []str; 
+}
+
+void MyString::myDisplay()
+{
+  cout << str;
+}
+
+void MyString::myStrcpy(char const* strIn)
+{
+  for(int i = 0; i < length; i++)
+  {
+    str[i] = strIn[i];
+  }
+}
+
+int MyString::myStrlen()
+{
+ 
+  return length;
+}
+
+

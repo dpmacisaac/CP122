@@ -1,0 +1,158 @@
+#include <iostream>
+using namespace std;
+
+#include "Header.h"
+#include <cstring>
+
+//Constructor function
+MyString::MyString(char const* strIn)
+{ 
+  length = 0;
+  while(strIn[length] != '\0')
+  {
+    length++; //find length
+  }
+  str = new char[length + 1]; //creat new str
+  for(int x = 0; x<length; x++)
+  {
+    str[x] = strIn[x];
+  }
+}
+
+//Destructor Function
+MyString::~MyString()
+{
+  delete []str; 
+}
+
+void MyString::myDisplay()
+{
+  cout << str;
+}
+
+void MyString::myStrcpy(char const* strIn)
+{
+  delete []str; //delete str because length may be different
+  int leng = 0;
+  while(strIn[leng] != '\0') //find out new length
+  {
+    leng++;
+  }
+  char* str = new char[leng+ 1]; // recreate str
+  for(int i = 0; i < leng; i++)
+  {
+    str[i] = strIn[i]; //fill str in
+  }
+}
+
+int MyString::myStrlen()
+{
+  length = 0;
+  while(str[length] != '\0')
+  {
+    length++;
+  }
+  return length;
+}
+
+bool MyString::isEqual(char const* strIn)
+{
+  int i = 0;
+  while(str[i] != '\0')
+  {
+    if(str[i] != strIn[i])
+    {
+      return false; //if any of the values are false, return false
+    }
+    i++;
+  }
+  return true; //if it goes through entire loop and isn't false, its equal 
+}
+
+
+int MyString::find(char const* strIn)
+{
+  int idx = 0;
+  
+  while(str[idx] != '\0')
+  {
+    if(str[idx] == strIn[0]) //if str at the index equals strIn at its first character
+    {
+      if(isSub(strIn, idx)) //run isSub to see if the following characters are a match
+      {
+        return idx;
+      }
+    }
+    idx++;
+  }
+  return -1;
+}
+
+void MyString::concat(char const* strIn)
+{
+  char* str1;
+  length = myStrlen();
+  int z = length;
+ 
+  
+  int j = 0;
+  while(strIn[j] != '\0') //find total length of new str
+  {
+    length++;
+    j++;
+  }
+  
+  str1 = new char[length + 1]; //create temporary holding string that has the final concatenated string
+  
+  j = 0;
+  for(int x = 0; x <length; x++) // fill the temp string
+  {
+    if(x < z)
+    {
+      str1[x] = str[x];
+    }
+    else
+    {
+      str1[x] = strIn[j];
+      j++;
+    }
+  }
+  
+  delete []str; //delete the original str
+  char* str = new char[length + 1]; //recreate with correct length
+  
+  j = 0;
+  while(str1[j] != '\0') // fill the recreated str with the correct string
+  {
+    str[j] = str1[j];
+    j++;
+  }
+   
+  delete []str1; // delete temp string
+  return;
+}
+
+
+
+
+bool MyString::isSub(char const* strIn, int idx)
+{
+  int i = 0;
+  while(strIn[i] != '\0') //run until the end of StrIn is reached
+  {
+    if(str[idx] != strIn[i]) //if the current value of str does not equal the value of strIn
+    {
+      return false;
+    }
+    idx++;
+    i++;
+  }
+  return true; //if it makes it through the loop, return true 
+}
+
+
+
+
+
+
+

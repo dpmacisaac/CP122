@@ -1,0 +1,76 @@
+/*
+Name: Paul De Palma
+Class: CPSC 122, Section 1
+Date Submitted: February 18, 2021
+Assignment: N/A 
+Description: Program illustrates using class MyString 
+*/
+
+#include "8-MyStr.h"
+#include <iostream> 
+using namespace std;
+
+
+int main(int argc, char* argv[])
+{
+
+ MyString str1(argv[1]);
+ MyString* str2 = new MyString(argv[2]);
+
+/*
+ //Test of myDisplay
+ cout << "***************************************" << endl;
+ cout << "*****Test 1 myDisplay*****" << endl;
+ cout << "static test" << endl;
+ cout << "output should be the command line input" << endl;
+ str1.myDisplay();
+ cout << endl;
+ cout << "*****Test 2  myDisplay*****" << endl;
+ cout << "dynamic test" << endl;
+ cout << "output should be the command line input" << endl;
+ str2->myDisplay();
+ cout << endl;
+ cout << "***************************************" << endl;
+ //End Test of myDisplay
+ */
+ 
+ 
+ //Test of myStrcpy
+ char newInput[] = {'A','B','C','D'};
+ cout << "***************************************" << endl;
+ cout << "*****Test 1 myStrcpy*****" << endl;
+ cout << "static test" << endl;
+ cout << "output should be ABCD" << endl;
+ str1.myStrcpy(newInput);
+ str1.myDisplay();
+ cout << endl;
+ cout << "*****Test 2  myStrcpy*****" << endl;
+ cout << "dynamic test" << endl;
+ cout << "output should be the command line input" << endl;
+ str2->myStrcpy(newInput);
+ str2->myDisplay();
+ cout << endl;
+ cout << "***************************************" << endl;
+ //End Test of myDisplay
+ 
+ 
+ /*
+ //Test of myStrlen
+ cout << "***************************************" << endl;
+ cout << "*****Test 1 myStrlen*****" << endl;
+ cout << "static test" << endl;
+ cout << "output should be the number of chars in command line input" << endl;
+ cout << str1.myStrlen() << endl;
+ cout << "*****Test 2  myStrlen*****" << endl;
+ cout << "dynamic test" << endl;
+ cout << "output should be the number of chars in command line input" << endl;
+ cout << str2->myStrlen() << endl;
+ cout << "***************************************" << endl;
+ //End Test of myStrlen
+ */
+ 
+ delete str2;
+ return 0;  
+}
+   
+  
